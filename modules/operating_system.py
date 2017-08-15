@@ -20,7 +20,7 @@ class OperatingSystem(object):
         get linux issue file
         """
         self.logger.normal_output("[*] Grabbing /etc/issue")
-        return subprocess.call(["cat /etc/issue"])
+        return subprocess.call(["cat", "/etc/issue"])
 
     def get_releases(self):
         """
