@@ -27,14 +27,19 @@ class OperatingSystem(object):
         get os releases
         """
         self.logger.normal_output("[*] Grabbing releases")
-        return subprocess.call("cat /etc/*-release")
+        return subprocess.call("cat", "/etc/*-release")
 
     def get_kernel(self):
         """
         get kernel info
         """
         self.logger.normal_output("[*] Grabbing Kernel information")
-        kernel = subprocess.call(["cat /proc/version", "uname -a", "uname -mrs", "rpm -q kernel", "dmesg | grep Linux", "ls /boot | grep vmlinuz-"])
+        kernel = subprocess.call(["cat", "/proc/version"])
+        kernel += subprocess.call(["uname", "-a"]
+        kernal += subprocess.call(["uname", "-mrs"]
+        kernel += subprocess.call(["rpm", "-q kernel"])
+        kernal += subprocess.call(["dmesg | grep Linux"])
+        kernel += subprocess.call(["ls /boot | grep vmlinuz-"])
         
         return kernel
 
