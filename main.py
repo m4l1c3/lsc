@@ -16,9 +16,9 @@ class LCS(object):
         op_sys = OperatingSystem()
         op_sys.get_issues()
         op_sys.get_releases()
-        op_sys.get_kernel()
-        op_sys.get_environment()
-        op_sys.get_printers()
+        # op_sys.get_kernel()
+        # op_sys.get_environment()
+        # op_sys.get_printers()
         self.logger.normal_output("Running linux security check")
 
 
