@@ -36,7 +36,7 @@ class OperatingSystem(object):
         self.logger.normal_output("[*] Grabbing Kernel information")
         kernel = subprocess.call(["cat", "/proc/version"])
         kernel += subprocess.call(["uname", "-a"]
-        kernal += subprocess.call(["uname", "-mrs"]
+        kernel += subprocess.call(["uname", "-mrs"]
         kernel += subprocess.call(["rpm", "-q kernel"])
         kernal += subprocess.call(["dmesg | grep Linux"])
         kernel += subprocess.call(["ls /boot | grep vmlinuz-"])
