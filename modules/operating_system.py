@@ -27,7 +27,8 @@ class OperatingSystem(object):
         get os releases
         """
         self.logger.normal_output("[*] Grabbing releases")
-        return subprocess.call("cat", "/etc/*-release")
+        releases = subprocess.call(["cat", "/etc/*-release"])
+        self.logger.debug("[*] Releases:" releases)
 
     def get_kernel(self):
         """
