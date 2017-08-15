@@ -35,11 +35,11 @@ class OperatingSystem(object):
         """
         self.logger.normal_output("[*] Grabbing Kernel information")
         kernel = subprocess.call(["cat", "/proc/version"])
-        kernel += subprocess.call(["uname", "-a"]
-        kernel += subprocess.call(["uname", "-mrs"]
+        kernel += subprocess.call(["uname", "-a"])
+        kernel += subprocess.call(["uname", "-mrs"])
         kernel += subprocess.call(["rpm", "-q kernel"])
         kernal += subprocess.call(["dmesg | grep Linux"])
-        kernel += subprocess.call(["ls /boot | grep vmlinuz-"])
+        kernel += subprocess.call(["ls", "/boot | grep vmlinuz-"])
         
         return kernel
 
@@ -48,11 +48,17 @@ class OperatingSystem(object):
         get system environment variables
         """
         self.logger.normal_output("[*] Grabbing environment variables")
-        return subprocess.call(["cat /etc/profile", "cat /etc/bashrc", "cat ~/.bash_profile", "cat ~/.bashrc", "cat ~/.bash_logout", "env", "set"])
+        env =  subprocess.call(["cat", "/etc/profile"])
+        env += subprocess.call(["cat", "/etc/bashrc"])
+        env += subprocess.call(["cat", "~/.bash_profile"])
+        env += subprocess.call(["cat", "~/.bashrc"])
+        env += subprocess.call(["cat", "~/.bash_logout"])
+        env += subprocess.call(["env"])
+        env += subprocess.call(["set"])
 
     def get_printers(self):
         """
         get any printers
         """
         self.logger.normal_output("[*] Grabbing printers")
-        return subprocess.call(["lpstat -a"])
+        return subprocess.call(["lpstat", "-a"])
