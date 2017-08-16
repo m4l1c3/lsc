@@ -18,6 +18,13 @@ class OperatingSystem(object):
         self.setup_os_info()
         return
 
+    def run(self):
+        self.get_issues()
+        self.get_releases()
+        self.get_kernel()
+        self.get_environment()
+        self.get_printers()
+
     def setup_os_info(self):
         """
         Setup os info for use in other methods

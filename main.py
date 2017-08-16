@@ -13,13 +13,10 @@ class LCS(object):
         """
         main function for starting up scanner
         """
-        op_sys = OperatingSystem()
-        op_sys.get_issues()
-        op_sys.get_releases()
-        op_sys.get_kernel()
-        op_sys.get_environment()
-        op_sys.get_printers()
         self.logger.normal_output("Running linux security check")
+        op_sys = OperatingSystem()
+        op_sys.run()
+        
 
 
 scanner = LCS()
