@@ -37,7 +37,7 @@ class OperatingSystem(object):
         """
         self.logger.normal_output("Grabbing /etc/issue")
         issues = {}
-        issues.update("issue", os.system("cat /etc/issue")
+        issues.update("issue", os.system("cat /etc/issue"))
         return issues
 
     def get_releases(self):
@@ -56,15 +56,15 @@ class OperatingSystem(object):
         """
         self.logger.normal_output("Grabbing Kernel information")
         kernel = {}
-        kernel.update("proc/version", os.system("cat /proc/version")
-        kernel.update("uname -a", os.system("uname -a")
-        kernel.update("uname -mrs", os.system("uname -mrs")
+        kernel.update("proc/version", os.system("cat /proc/version"))
+        kernel.update("uname -a", os.system("uname -a"))
+        kernel.update("uname -mrs", os.system("uname -mrs"))
         # this needs to be done in case of redhat or centos based distro
         # kernel += check_output(["rpm", "-q kernel"])
         # this appears to require root or sudo in debian
         # kernel += check_output(["dmesg | grep Linux"])
         # this appears to be weird
-        kernel.update("/boot", "ls /boot | grep vmlinuz-")
+        kernel.update("/boot", os.system("ls /boot | grep vmlinuz-"))
         
         return kernel
 
