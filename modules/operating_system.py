@@ -72,12 +72,19 @@ class OperatingSystem(object):
         """
         self.logger.normal_output("Grabbing environment variables")
         env = {}
+        self.logger.normal_output("Grabbing profile")
         env.update({"profile": os.system("cat /etc/profile")})
+        self.logger.normal_output("Grabbing bashrc")
         env.update({"bashrc": os.system("cat /etc/bashrc")})
+        self.logger.normal_output("Grabbing bash profile")
         env.update({"bashprofile": os.system("cat ~/.bash_profile")})
+        self.logger.normal_output("Grabbing bashrc")
         env.update({"bashrc": os.system("cat ~/.bashrc")})
+        self.logger.normal_output("Grabbing logout")
         env.update({"bash logout": os.system("cat ~/.bash_logout")})
+        self.logger.normal_output("Grabbing env")
         env.update({"env": os.system("env")})
+        self.logger.normal_output("Grabbing set")
         env.update({"set": os.system("set")})
         return env
 
