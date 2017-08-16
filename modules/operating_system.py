@@ -2,8 +2,10 @@
 Operating system enumeration
 """
 import platform
+import os
 from subprocess import check_output
 from modules.logger import Logger
+
 
 """
 Class Operating system
@@ -34,28 +36,35 @@ class OperatingSystem(object):
         get linux issue file
         """
         self.logger.normal_output("Grabbing /etc/issue")
-        return check_output(["cat", "/etc/issue"])
+        issues = {}
+        issues.update("issue", os.system("cat /etc/issue")
+        return issues
 
     def get_releases(self):
         """
         get os releases
         """
         self.logger.normal_output("Grabbing releases")
-        releases = check_output(["ls", "-l", "/etc/*-release"]).rstrip()
-        releases = check_output(["cat", "/etc/*-release"])
-        self.logger.debug("Releases:" + releases)
+        releases = {}
+        releases.update("releases", os.system("ls -l /etc/*-release"))
+        return releases
+        # self.logger.debug("Releases:" + releases)
 
     def get_kernel(self):
         """
         get kernel info
         """
         self.logger.normal_output("Grabbing Kernel information")
-        kernel = check_output(["cat", "/proc/version"])
-        kernel += check_output(["uname", "-a"])
-        kernel += check_output(["uname", "-mrs"])
-        kernel += check_output(["rpm", "-q kernel"])
-        kernel += check_output(["dmesg | grep Linux"])
-        kernel += check_output(["ls", "/boot | grep vmlinuz-"])
+        kernel = {}
+        kernel.update("proc/version", os.system("cat /proc/version")
+        kernel.update("uname -a", os.system("uname -a")
+        kernel.update("uname -mrs", os.system("uname -mrs")
+        # this needs to be done in case of redhat or centos based distro
+        # kernel += check_output(["rpm", "-q kernel"])
+        # this appears to require root or sudo in debian
+        # kernel += check_output(["dmesg | grep Linux"])
+        # this appears to be weird
+        kernel.update("/boot", "ls /boot | grep vmlinuz-")
         
         return kernel
 
