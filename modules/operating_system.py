@@ -3,7 +3,6 @@ Operating system enumeration
 """
 import platform
 import os
-from subprocess import check_output
 from modules.logger import Logger
 
 
@@ -65,7 +64,6 @@ class OperatingSystem(object):
         # kernel += check_output(["dmesg | grep Linux"])
         # this appears to be weird
         kernel.update({"/boot": os.system("ls /boot | grep vmlinuz-")})
-        
         return kernel
 
     def get_environment(self):
@@ -73,17 +71,21 @@ class OperatingSystem(object):
         get system environment variables
         """
         self.logger.normal_output("Grabbing environment variables")
-        env =  check_output(["cat", "/etc/profile"])
-        env += check_output(["cat", "/etc/bashrc"])
-        env += check_output(["cat", "~/.bash_profile"])
-        env += check_output(["cat", "~/.bashrc"])
-        env += check_output(["cat", "~/.bash_logout"])
-        env += check_output(["env"])
-        env += check_output(["set"])
+        env = {}
+        env.update({"profile": os.system("cat /etc/profile")})
+        env.update({"bashrc": os.system("cat /etc/bashrc")})
+        env.update({"bashprofile": os.system("cat ~/.bash_profile")})
+        env.update({"bashrc": os.system("cat ~/.bashrc")})
+        env.update({"bash logout": os.system("cat ~/.bash_logout")})
+        env.update({"env": os.system("env")})
+        env.update({"set": os.system("set")})
+        return env
 
     def get_printers(self):
         """
         get any printers
         """
         self.logger.normal_output("Grabbing printers")
-        return check_output(["lpstat", "-a"])
+        printers = {}
+        printers.update({"printers lpstat": os.system("lpstat -a")})
+        return printers
