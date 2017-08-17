@@ -80,5 +80,5 @@ class Networking(object):
         """
         self.logger.normal_output("Running tcpdump")
         tcp_dump = {}
-        tcp_dump.update("tcpdump output": os.system("tcpdump tcp dst " + host + " 80 and tcp dst 10.5.5.252 21")})
+        tcp_dump.update({"tcpdump output": os.system("tcpdump tcp dst " + host + " 80 and tcp dst 10.5.5.252 21")})
         return tcp_dump
