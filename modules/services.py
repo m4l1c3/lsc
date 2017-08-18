@@ -50,43 +50,40 @@ class Services(object):
         """
         get service configurations
         """
-        service_configurations = os.system("cat /etc/syslog.conf")
-        service_configurations += os.system("cat /etc/chttp.conf")
-        service_configurations += os.system("cat /etc/lighttpd.conf")
-        service_configurations += os.system("cat /etc/cups/cupsd.conf")
-        service_configurations += os.system("cat /etc/inetd.conf")
-        service_configurations += os.system("cat /etc/apache2/apache2.conf")
-        service_configurations += os.system("cat /etc/my.conf")
-        service_configurations += os.system("cat /etc/httpd/conf/httpd.conf")
-        service_configurations += os.system("cat /opt/lampp/etc/httpd.conf")
-        service_configurations += os.system("ls -aRl /etc/ | awk '$1 ~ /^.*r.*/")
-        return service_configurations
+        
+        self.service_configurations.update({"syslog": os.system("cat /etc/syslog.conf")})
+        self.service_configurations.update({"chhtp": os.system("cat /etc/chttp.conf")})
+        self.service_configurations.update({"lighthttpd": os.system("cat /etc/lighttpd.conf")})
+        self.service_configurations.update({"cupsd": os.system("cat /etc/cups/cupsd.conf")})
+        self.service_configurations.update({"inetd": os.system("cat /etc/inetd.conf")})
+        self.service_configurations.update({"apache2": os.system("cat /etc/apache2/apache2.conf")})
+        self.service_configurations.update({"my.conf": os.system("cat /etc/my.conf")})
+        self.service_configurations.update({"httpd": os.system("cat /etc/httpd/conf/httpd.conf")})
+        self.service_configurations.update({"lamphttpd": os.system("cat /opt/lampp/etc/httpd.conf")})
+        self.service_configurations.update({"/etc/": os.system("ls -aRl /etc/ | awk '$1 ~ /^.*r.*/")})
 
     def get_secheduled_jobs(self):
         """
         get scheduled jobs
         """
-        scheduled_jobs = os.system("crontab -l")
-        scheduled_jobs = os.system("ls -alh /var/spool/cron")
-        scheduled_jobs = os.system("ls -al /etc/ | grep cron")
-        scheduled_jobs = os.system("ls -al /etc/cron*")
-        scheduled_jobs = os.system("cat /etc/cron*")
-        scheduled_jobs = os.system("cat /etc/at.allow")
-        scheduled_jobs = os.system("cat /etc/at.deny")
-        scheduled_jobs = os.system("cat /etc/cron.allow")
-        scheduled_jobs = os.system("cat /etc/cron.deny")
-        scheduled_jobs = os.system("cat /etc/crontab")
-        scheduled_jobs = os.system("cat /etc/anacrontab")
-        scheduled_jobs = os.system("cat /var/spool/cron/crontabs/root")
-        return scheduled_jobs
+        self.scheduled_jobs.update({"crontab -l": os.system("crontab -l")})
+        self.scheduled_jobs.update({"ls alh cron": os.system("ls -alh /var/spool/cron")})
+        self.scheduled_jobs.update({"/etc cron": os.system("ls -al /etc/ | grep cron")})
+        self.scheduled_jobs.update({"ls -al /etc/cron*": os.system("ls -al /etc/cron*")})
+        self.scheduled_jobs.update({"etc/cron": os.system("cat /etc/cron*")})
+        self.scheduled_jobs.update({"etc/at.allow": os.system("cat /etc/at.allow")})
+        self.scheduled_jobs.update({"etc/at.deny": os.system("cat /etc/at.deny")})
+        self.scheduled_jobs.update({"etc/cron.allow": os.system("cat /etc/cron.allow")})
+        self.scheduled_jobs.update({"etc/cron.deny": os.system("cat /etc/cron.deny")})
+        self.scheduled_jobs.update({"crontab": os.system("cat /etc/crontab")})
+        self.scheduled_jobs.update({"acrontab": os.system("cat /etc/anacrontab")})
+        self.scheduled_jobs.update({"rootcrontab": os.system("cat /var/spool/cron/crontabs/root")})
 
     def check_for_plaintext_passwords(self):
         """
         check for different config files containing passwords
         """
-        plaintext_passwords = os.system("grep -i user [filename]")
-        plaintext_passwords += os.system("grep -i pass [filename]")
-        plaintext_passwords += os.system("grep -C 5 \"password\" [filename]")
-        plaintext_passwords += os.system("find . -name \"*.php\" -print0 | xargs -0 grep -i -n \"var $password\"   # Joomla")
-
-        return plaintext_passwords
+        self.plaintext_passwords.update({"grep for user": os.system("grep -i user /*")})
+        self.plaintext_passwords.update({"grep for pass": os.system("grep -i pass /*")})
+        self.plaintext_passwords.update({"grep -c 5": os.system("grep -C 5 \"password\" /*")})
+        self.plaintext_passwords.update({"find php $password": os.system("find . -name \"*.php\" -print0 | xargs -0 grep -i -n \"var $password\"   # Joomla")})
