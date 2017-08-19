@@ -5,10 +5,11 @@ import os
 from modules.logger import Logger
 
 class Networking(object):
-    logger = Logger()
     """
     Networking class
     """
+    logger = Logger()
+
     def __init__(self):
         self.nics = {}
         self.network_config = {}
@@ -20,8 +21,9 @@ class Networking(object):
         """
         run all modules
         """
+        self.logger.normal_output("Running network")
         self.get_nics()
-        self.get_tcpdump("test")
+        # self.get_tcpdump("test")
         self.get_networking_config_info()
         self.get_cached_network_info()
         self.get_users_and_hosts()
@@ -59,7 +61,9 @@ class Networking(object):
         self.users_and_hosts.update({"netstat -antpx": os.system("netstat -antpx")})
         self.users_and_hosts.update({"netstat - tulpn": os.system("netstat -tulpn")})
         self.users_and_hosts.update({"chkconfig --list": os.system("chkconfig --list")})
-        self.users_and_hosts.update({"chkconfig -- run level and enabled": os.system("chkconfig --list | grep 3:on")})
+        self.users_and_hosts.update({
+            "chkconfig -- run level and enabled": os.system("chkconfig --list | grep 3:on")
+        })
         self.users_and_hosts.update({"last": os.system("last")})
         self.users_and_hosts.update({"w": os.system("w")})
 
@@ -78,4 +82,11 @@ class Networking(object):
         """
         self.logger.normal_output("Running tcpdump")
         self.tcp_dump = {}
-        self.tcp_dump.update({"tcpdump output": os.system("tcpdump tcp dst " + host + " 80 and tcp dst 10.5.5.252 21")})
+        self.tcp_dump.update(
+            {
+                "tcpdump output":
+                os.system(
+                    "tcpdump tcp dst " + host + " 80 and tcp dst 10.5.5.252 21"
+                )
+            }
+        )
