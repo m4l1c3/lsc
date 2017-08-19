@@ -18,20 +18,17 @@ class OperatingSystem(object):
     def __init__(self):
         self.setup_os_info()
         self.issues = {}
-        self.releases ={}
+        self.releases = {}
         self.kernel = {}
-        self.env = {}
-        self.printers = {}
 
     def run(self):
         """
         run all modules
         """
+        self.logger.debug("Running OS")
         self.get_issues()
         self.get_releases()
         self.get_kernel()
-        self.get_environment()
-        self.get_printers()
 
     def setup_os_info(self):
         """
@@ -43,9 +40,10 @@ class OperatingSystem(object):
             self.release = platform.release()
             self.version = platform.version()
             self.platform = platform.linux_distribution()
-        except:
+        except Exception as ex:
+            self.logger.error(ex)
             self.platform = "Windows"
-        
+
     def get_issues(self):
         """
         get linux issue file
@@ -59,7 +57,6 @@ class OperatingSystem(object):
         """
         self.logger.normal_output("Grabbing releases")
         self.releases.update({"releases": os.system("ls -l /etc/*-release")})
-        # self.logger.debug("Releases:" + releases)
 
     def get_kernel(self):
         """
@@ -75,30 +72,3 @@ class OperatingSystem(object):
         # kernel += check_output(["dmesg | grep Linux"])
         # this appears to be weird
         self.kernel.update({"/boot": os.system("ls /boot | grep vmlinuz-")})
-
-    def get_environment(self):
-        """
-        get system environment variables
-        """
-        self.logger.normal_output("Grabbing environment variables")
-        self.logger.normal_output("Grabbing profile")
-        self.env.update({"profile": os.system("cat /etc/profile")})
-        self.logger.normal_output("Grabbing bashrc")
-        self.env.update({"bashrc": os.system("cat /etc/bashrc")})
-        self.logger.normal_output("Grabbing bash profile")
-        self.env.update({"bashprofile": os.system("cat ~/.bash_profile")})
-        self.logger.normal_output("Grabbing bashrc")
-        self.env.update({"bashrc": os.system("cat ~/.bashrc")})
-        self.logger.normal_output("Grabbing logout")
-        self.env.update({"bash logout": os.system("cat ~/.bash_logout")})
-        self.logger.normal_output("Grabbing env")
-        self.env.update({"env": os.system("env")})
-        self.logger.normal_output("Grabbing set")
-        self.env.update({"set": os.system("set")})
-
-    def get_printers(self):
-        """
-        get any printers
-        """
-        self.logger.normal_output("Grabbing printers")
-        self.printers.update({"printers lpstat": os.system("lpstat -a")})
