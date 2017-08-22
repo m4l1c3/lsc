@@ -2,11 +2,15 @@
 Obfuscation module
 """
 
+import base64
+# import hashlib
+
 class Obfuscation(object):
     """
     Obfuscation object
     """
     def __init__(self):
+        #todo possibly hash to conceal length?
         return
 
     @staticmethod
@@ -15,7 +19,7 @@ class Obfuscation(object):
         obfuscate a message
         todo encrypt and encode data to send back
         """
-        return message
+        return base64.b64encode(message)
 
     @staticmethod
     def debfuscate(message):
@@ -23,4 +27,4 @@ class Obfuscation(object):
         deobfuscate a message
         todo decode and decrypt data upon retrieval
         """
-        return message
+        return base64.b64decode(message)
