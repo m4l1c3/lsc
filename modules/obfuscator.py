@@ -22,7 +22,7 @@ class Obfuscation(object):
         return base64.b64encode(message)
 
     @staticmethod
-    def debfuscate(message):
+    def deobfuscate(message):
         """
         deobfuscate a message
         todo decode and decrypt data upon retrieval
