@@ -54,7 +54,7 @@ class OperatingSystem(object):
             self.issues.update({"issue": check_output(["cat", "/etc/issue"])})
         except (CalledProcessError), error:
             # self.issues.update({"issue": os.system("cat /etc/issue")})
-            self.logger.error("Error getting /etc/issue: " + error.output)
+            self.logger.error("Error getting /etc/issue")
 
         
 
