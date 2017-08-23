@@ -63,7 +63,11 @@ class OperatingSystem(object):
         get os releases
         """
         self.logger.normal_output("Grabbing releases")
-        self.releases.update({"releases": os.system("ls -l /etc/*-release")})
+
+        try:
+            self.releases.update({"releases": check_output(["cat", "/etc/*-release"])})
+        except (CalledProcessError), error:
+            self.logger.error("Error grabbing release")
 
     def get_kernel(self):
         """
