@@ -3,8 +3,9 @@ Operating system enumeration
 """
 import platform
 import os
+from subprocess import CalledProcessError
+from subprocess import check_output
 from modules.logger import Logger
-
 
 """
 Class Operating system
@@ -49,7 +50,13 @@ class OperatingSystem(object):
         get linux issue file
         """
         self.logger.normal_output("Grabbing /etc/issue")
-        self.issues.update({"issue": os.system("cat /etc/issue")})
+        try:
+            self.issues.update({"issue": check_output(["cat", "/etc/issue"])})
+        except (CalledProcessError), error:
+            # self.issues.update({"issue": os.system("cat /etc/issue")})
+            self.logger.error("Error getting /etc/issue: " + error.output)
+
+        
 
     def get_releases(self):
         """
