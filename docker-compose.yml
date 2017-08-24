@@ -1,0 +1,14 @@
+version: "3.3"
+services:
+  debian:
+    build:
+      context: "./debian"
+  arch:
+    build:
+      context: "./arch"
+  fedora:
+    build:
+      context: "./fedora"
+  centos:
+    build:
+      context: "./centos"
