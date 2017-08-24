@@ -5,6 +5,7 @@ import platform
 import os
 from subprocess import CalledProcessError
 from subprocess import check_output
+from modules.execute_command import ExecuteCommand
 from modules.logger import Logger
 
 """
@@ -15,6 +16,7 @@ class OperatingSystem(object):
     constructor
     """
     logger = Logger()
+    executor = ExecuteCommand()
 
     def __init__(self):
         self.setup_os_info()
@@ -41,7 +43,7 @@ class OperatingSystem(object):
             self.release = platform.release()
             self.version = platform.version()
             self.platform = platform.linux_distribution()
-        except Exception as ex:
+        except OSError as ex:
             self.logger.error(ex)
             self.platform = "Windows"
 
@@ -51,12 +53,10 @@ class OperatingSystem(object):
         """
         self.logger.normal_output("Grabbing /etc/issue")
         try:
-            self.issues.update({"issue": check_output(["cat", "/etc/issue"])})
+            self.issues.update({"issue": self.executor.execute_command("cat /etc/issue")})
         except (CalledProcessError), error:
             # self.issues.update({"issue": os.system("cat /etc/issue")})
             self.logger.error("Error getting /etc/issue")
-
-        
 
     def get_releases(self):
         """
@@ -65,7 +65,7 @@ class OperatingSystem(object):
         self.logger.normal_output("Grabbing releases")
 
         try:
-            self.releases.update({"releases": check_output(["cat", "/etc/*-release"])})
+            self.releases.update({"releases": self.executor.execute_command("cat /etc/*-release")})
         except (CalledProcessError), error:
             self.logger.error("Error grabbing release")
 
@@ -74,12 +74,12 @@ class OperatingSystem(object):
         get kernel info
         """
         self.logger.normal_output("Grabbing Kernel information")
-        self.kernel.update({"proc/version": os.system("cat /proc/version")})
-        self.kernel.update({"uname -a": os.system("uname -a")})
-        self.kernel.update({"uname -mrs": os.system("uname -mrs")})
+        self.kernel.update({"proc/version": self.executor.execute_command("cat /proc/version")})
+        self.kernel.update({"uname -a": self.executor.execute_command("uname -a")})
+        self.kernel.update({"uname -mrs": self.executor.execute_command("uname -mrs")})
         # this needs to be done in case of redhat or centos based distro
         # kernel += check_output(["rpm", "-q kernel"])
         # this appears to require root or sudo in debian
         # kernel += check_output(["dmesg | grep Linux"])
         # this appears to be weird
-        self.kernel.update({"/boot": os.system("ls /boot | grep vmlinuz-")})
+        self.kernel.update({"/boot": self.executor.execute_command("ls /boot | grep vmlinuz-")})

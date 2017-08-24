@@ -1,14 +1,15 @@
 """
 Printers
 """
-import os
 from modules.logger import Logger
+from modules.execute_command import ExecuteCommand
 
 class Printers(object):
     """
     Printer checking object
     """
     logger = Logger()
+    executor = ExecuteCommand()
 
     def __init__(self):
         self.printers = {}
@@ -25,4 +26,4 @@ class Printers(object):
         get any printers
         """
         self.logger.normal_output("Grabbing printers")
-        self.printers.update({"printers lpstat": os.system("lpstat -a")})
+        self.printers.update({"printers lpstat": self.executor.execute_command("lpstat -a")})
