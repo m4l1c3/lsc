@@ -2,11 +2,10 @@
 Operating system enumeration
 """
 import platform
-import os
-from subprocess import CalledProcessError
-from subprocess import check_output
 from modules.execute_command import ExecuteCommand
 from modules.logger import Logger
+from modules.exfiltrator import Exfiltration
+from modules.file_writer import FileWriter
 
 """
 Class Operating system
@@ -17,6 +16,8 @@ class OperatingSystem(object):
     """
     logger = Logger()
     executor = ExecuteCommand()
+    file_writer = FileWriter("operating_system.lsc")
+    # exfiltrator = Exfiltration("operating_system.lsc")
 
     def __init__(self):
         self.setup_os_info()
@@ -32,6 +33,7 @@ class OperatingSystem(object):
         self.get_issues()
         self.get_releases()
         self.get_kernel()
+        self.file_writer.write_output(self.kernel)
 
     def setup_os_info(self):
         """
@@ -44,7 +46,7 @@ class OperatingSystem(object):
             self.version = platform.version()
             self.platform = platform.linux_distribution()
         except OSError as ex:
-            self.logger.error(ex)
+            self.logger.error("Error defining OS" + ex.message)
             self.platform = "Windows"
 
     def get_issues(self):
@@ -52,22 +54,14 @@ class OperatingSystem(object):
         get linux issue file
         """
         self.logger.normal_output("Grabbing /etc/issue")
-        try:
-            self.issues.update({"issue": self.executor.execute_command("cat /etc/issue")})
-        except (CalledProcessError), error:
-            # self.issues.update({"issue": os.system("cat /etc/issue")})
-            self.logger.error("Error getting /etc/issue")
+        self.issues.update({"issue": self.executor.execute_command("cat /etc/issue")})
 
     def get_releases(self):
         """
         get os releases
         """
         self.logger.normal_output("Grabbing releases")
-
-        try:
-            self.releases.update({"releases": self.executor.execute_command("cat /etc/*-release")})
-        except (CalledProcessError), error:
-            self.logger.error("Error grabbing release")
+        self.releases.update({"releases": self.executor.execute_command("cat /etc/*-release")})
 
     def get_kernel(self):
         """
@@ -83,3 +77,5 @@ class OperatingSystem(object):
         # kernel += check_output(["dmesg | grep Linux"])
         # this appears to be weird
         self.kernel.update({"/boot": self.executor.execute_command("ls /boot | grep vmlinuz-")})
+
+    

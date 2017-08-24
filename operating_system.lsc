@@ -1,0 +1,12 @@
+Command: proc/version
+Output: None
+
+Command: uname -a
+Output: Darwin m4l1c3s-MacBook-Pro.local 16.7.0 Darwin Kernel Version 16.7.0: Thu Jun 15 17:36:27 PDT 2017; root:xnu-3789.70.16~2/RELEASE_X86_64 x86_64
+
+Command: /boot
+Output: None
+
+Command: uname -mrs
+Output: Darwin 16.7.0 x86_64
+

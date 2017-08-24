@@ -22,7 +22,7 @@ class ExecuteCommand(object):
         """
         try:
             return check_output(command_text.split(" "))
-        except CalledProcessError as error:
+        except (OSError, CalledProcessError) as error:
             self.logger.error("Error processing command: " + command_text + " " + error.output)
             return
 
