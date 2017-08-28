@@ -1,9 +1,9 @@
 # lsc
 
-A collection of different linux security checks for attempting privilege escalation from different sources wrapped into python scripts for ease of enumeration.
+A collection of different commands and their output for checking enumerating personally owned devices and equipment for the purpose of testing their security.  Basically, check for places where priviledge escalation is possible so the bad guys don't find it first.
 
 ## Dislaimer
 
-This tool is intended for use on your own devices and not networks or servers you do not have permission to test.
+This tool is intended for testing purposes only.  Use on your own devices and not networks or servers you do not have permission to test, seriously...don't do it.
 
-Credits: @g01m1lk
+Credits: @g01ml1k, @g0blinResearch
