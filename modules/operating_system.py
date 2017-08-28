@@ -4,7 +4,6 @@ Operating system enumeration
 import platform
 from modules.execute_command import ExecuteCommand
 from modules.logger import Logger
-from modules.exfiltrator import Exfiltration
 from modules.file_writer import FileWriter
 
 """
@@ -16,7 +15,7 @@ class OperatingSystem(object):
     """
     logger = Logger()
     executor = ExecuteCommand()
-    file_writer = FileWriter("operating_system.lsc")
+    file_writer = FileWriter()
     # exfiltrator = Exfiltration("operating_system.lsc")
 
     def __init__(self):
@@ -33,7 +32,6 @@ class OperatingSystem(object):
         self.get_issues()
         self.get_releases()
         self.get_kernel()
-        self.file_writer.write_output(self.kernel)
 
     def setup_os_info(self):
         """
@@ -55,6 +53,7 @@ class OperatingSystem(object):
         """
         self.logger.normal_output("Grabbing /etc/issue")
         self.issues.update({"issue": self.executor.execute_command("cat /etc/issue")})
+        self.file_writer.write_output("lsc_issues.lsc", self.issues)
 
     def get_releases(self):
         """
@@ -62,6 +61,7 @@ class OperatingSystem(object):
         """
         self.logger.normal_output("Grabbing releases")
         self.releases.update({"releases": self.executor.execute_command("cat /etc/*-release")})
+        self.file_writer.write_output("lsc_releases.lsc", self.releases)
 
     def get_kernel(self):
         """
@@ -77,5 +77,5 @@ class OperatingSystem(object):
         # kernel += check_output(["dmesg | grep Linux"])
         # this appears to be weird
         self.kernel.update({"/boot": self.executor.execute_command("ls /boot | grep vmlinuz-")})
-
+        self.file_writer.write_output("lsc_kernel-info.lsc", self.kernel)
     
