@@ -105,3 +105,4 @@ ENV/
 *.lsc
 *.tar
 *.tar.gz
+payload.txt
