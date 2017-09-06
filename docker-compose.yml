@@ -12,3 +12,6 @@ services:
   centos:
     build:
       context: "./centos"
+  kali:
+    build:
+      context: "./kali"
